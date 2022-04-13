@@ -28,7 +28,7 @@ router.get("/size", (request, response) => {
 
   if (pick === "smallest") {
     return response.send(
-      `The satellite with the largest radius is ${results.smallest.name}, with a radius of ${results.smallest.radius}`
+      `The satellite with the smallest radius is ${results.smallest.name}, with a radius of ${results.smallest.radius}`
     );
   }
 

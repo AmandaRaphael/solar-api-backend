@@ -22,13 +22,13 @@ router.get("/size", (request, response) => {
 
   if (pick === "largest") {
     return response.send(
-      `The planet with the largest radius is ${results.largest.name}, with a radius of ${results.largest.radius}`
+      `The planet with the largest radius is ${results.largest.name}, with a diameter of ${results.largest.diameter}`
     );
   }
 
   if (pick === "smallest") {
     return response.send(
-      `The planet with the largest radius is ${results.smallest.name}, with a radius of ${results.smallest.radius}`
+      `The planet with the smallest radius is ${results.smallest.name}, with a diameter of ${results.smallest.diameter}`
     );
   }
 

@@ -1,10 +1,10 @@
 import express from "express";
-
 import satelliteRouter from "./routes/satellite.js";
-import planetRouter from "./routes/planets.js";
+import planetRouter from "./routes/planets2.js";
 import adminRouter from "./routes/admin.js";
 import { logger } from "./middleware/logger.js";
 import { auth } from "./middleware/auth.js";
+import cors from "cors"
 
 import {
   getPlanetDataset,
@@ -12,6 +12,8 @@ import {
 } from "./middleware/datasets.js";
 
 const app = express();
+
+app.use(cors())
 
 app.use("/admin", auth, adminRouter);
 
