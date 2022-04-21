@@ -1,5 +1,5 @@
 function findLargestAndSmallest(dataset, key) {
-  const objects = dataset.sort((object1, object2) => {
+  const objects = Array.of(dataset).sort((object1, object2) => {
     if (object1[key] > object2[key]) {
       return 1;
     }

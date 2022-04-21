@@ -1,14 +1,13 @@
-import planetsDataset from '../planets-dataset.js';
-import satellitesDataset from '../satellites-dataset.js';
+import PlanetsData from "../models/Planets.js";
+import SatelliteData from '../models/Satellite.js';
 
-export function getSatelliteDataset (req, _, next) {
-    req.dataset = satellitesDataset;
-
+export  async function getSatelliteDataset (req, _, next) {
+    req.dataset = await SatelliteData.find();
     next();
 }
 
 export function getPlanetDataset(req, _, next) {
-    req.dataset = planetsDataset;
+    req.dataset = PlanetsData.find();
 
     next();
 }

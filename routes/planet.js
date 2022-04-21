@@ -1,38 +1,44 @@
 import express from "express";
-import planets from "../planets-dataset.js";
+//  import planets from "../planets-dataset.js";
+import PlanetsData from "../models/Planets.js";
 
 const router = express.Router();
 
+
 // capture all GET requests to route
-router.get("/", (request, response) => {
+router.get("/", async (request, response) => {
+  const planets= await PlanetsData.find()
   return response.status(200).json(planets);
 });
 
-router.get("/:planet", (request, response) => {
-  const planetName = request.params.planet;
+// router.get("/:planet", async (request, response) => {
+//   const planetName = request.params.planet;
 
-  if (!/^[a-zA-Z]+$/.test(planetName)) {
-    return response.status(504).json("Invalid input");
-  }
+//   if (!/^[a-zA-Z]+$/.test(planetName)) {
+//     return response.status(504).json("Invalid input");
+//   }
+//   const planets = await PlanetsData.find();
+//   console.log("q",planets);
+  
+//   const planet = planets.find(
+//     (planet) =>
+//       planet.name === planetName[0].toUpperCase() + planetName.slice(1)
+//   );
+//   //No sat with that name
 
-  const planet = planets.find(
-    (planet) =>
-      planet.name === planetName[0].toUpperCase() + planetName.slice(1)
-  );
-  //No sat with that name
+//   if (!planet) {
+//     return response.status(404).json("No satellite found");
+//   }
+//   return response.status(200).json(planet);
+// });
 
-  if (!planet) {
-    return response.status(404).json("No satellite found");
-  }
-  return response.status(200).json(planet);
-});
-router.get("/find/:name", (request, response) => {
+router.get("/find/:name",async (request, response) => {
   const planetName = request.params.name;
 
   if (!/^[a-zA-Z]+$/.test(planetName)) {
     return response.status(504).json("Invalid input");
   }
-
+ const planets = await PlanetsData.find();
   const planet = planets.find(
     (planet) =>
       planet.name === planetName[0].toUpperCase() + planetName.slice(1)
@@ -46,12 +52,12 @@ router.get("/find/:name", (request, response) => {
 });
 
 //task5:2
-router.get("/size/:pick", (request, response) => {
+router.get("/size/:pick", async (request, response) => {
   const pick = request.params.pick.toLowerCase();
   if (!/^[a-zA-Z]+$/.test(pick)) {
     return response.status(504).json("Invalid input!");
   }
-
+ const planets = await PlanetsData.find();
   const sorted = planets.sort((a, b) =>
     a.diameter > b.diameter ? 1 : b.diameter > a.diameter ? -1 : 0
   );
@@ -78,12 +84,13 @@ router.get("/size/:pick", (request, response) => {
 });
 
 //task 5.3
-router.get("/moons/:pick", (request, response) => {
+router.get("/moons/:pick", async (request, response) => {
   const pick = request.params.pick.toLowerCase();
   if (!/^[a-zA-Z]+$/.test(pick)) {
     return response.status(504).json("Invalid input!");
   }
-
+  const planets = await PlanetsData.find();
+  
   const sorted = planets.sort((a, b) =>
     a.numberOfMoons > b.numberOfMoons
       ? 1
@@ -91,6 +98,8 @@ router.get("/moons/:pick", (request, response) => {
       ? -1
       : 0
   );
+  
+
   if (pick === "most") {
     return response
       .status(200)
@@ -103,7 +112,7 @@ router.get("/moons/:pick", (request, response) => {
   if (pick === "none") {
     let arrayReduced = sorted.reduce((noMoonArray, planet) => {
       if (planet.numberOfMoons === 0) {
-        console.log(`hi`, noMoonArray);
+    
 
         return [...noMoonArray, planet.name];
       }
@@ -120,12 +129,12 @@ router.get("/moons/:pick", (request, response) => {
 });
 
 //task5:4
-router.get("/sun/:pick", (request, response) => {
+router.get("/sun/:pick", async (request, response) => {
   const pick = request.params.pick.toLowerCase();
   if (!/^[a-zA-Z]+$/.test(pick)) {
     return response.status(504).json("Invalid input!");
   }
-
+const planets = await PlanetsData.find();
   const sorted = planets.sort((a, b) =>
     a.distanceFromSun > b.distanceFromSun
       ? 1
@@ -160,12 +169,12 @@ router.get("/sun/:pick", (request, response) => {
 });
 
 //task5:5
-router.get("/temperature/:pick", (request, response) => {
+router.get("/temperature/:pick", async (request, response) => {
   const pick = request.params.pick.toLowerCase();
   if (!/^[a-zA-Z]+$/.test(pick)) {
     return response.status(504).json("Invalid input!");
   }
-
+const planets = await PlanetsData.find();
   const sorted = planets.sort((a, b) =>
     a.meanTemperature > b.meanTemperature
       ? 1
@@ -197,12 +206,12 @@ router.get("/temperature/:pick", (request, response) => {
     );
 });
 // 5.6 Find the planets with the longest and shortest day
-router.get("/day/:pick", (request, response) => {
+router.get("/day/:pick", async (request, response) => {
 const pick = request.params.pick.toLowerCase();
  if (!/^[a-zA-Z]+$/.test(pick)) {
    return response.status(504).json("Invalid input!");
  }
-  
+  const planets = await PlanetsData.find();
   const sorted = planets.sort((a, b) =>
     a.lengthOfDay > b.lengthOfDay
       ? 1
@@ -210,6 +219,7 @@ const pick = request.params.pick.toLowerCase();
       ? -1
       : 0
   );
+
   if (pick === "longest") {
     return response.send(
       `The planet with the longest day is ${
